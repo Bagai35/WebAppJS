@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const deadline = '2023-12-11';
+    const deadline = '2021-12-11';
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -47,16 +47,18 @@ window.addEventListener('DOMContentLoaded', function () {
 
         return {
             'total': t,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
+            'days': getZero(days),
+            'hours': getZero(hours),
+            'minutes': getZero(minutes),
+            'seconds': getZero(seconds)
         };
     }
 
     function getZero(num) {
         if (num >= 0 && num < 10) {
             return '0' + num;
+        } else if (num < 0) {
+            return '0';
         } else {
             return num;
         }
@@ -168,6 +170,9 @@ window.addEventListener('DOMContentLoaded', function () {
                             <div class="menu＿item-total"><span>${this.price}</span> EUR/день</div>
                         </div>
                         `;
+
+                        element.style.marginLeft = "40px";
+
             this.parent.append(element);
         }
     }
@@ -199,6 +204,16 @@ window.addEventListener('DOMContentLoaded', function () {
         'В меню "Премиум" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд.' +
         'Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
         21,
+        ".menu .container"
+    ).render();
+
+    new MenuCard(
+        "img/tabs/elite.jpg",
+        "elite",
+        'Меню "Премиум +"',
+        'В меню "Премиум +" мы используем только красивый дизайн упаковки, но и качественное исполнение блюд.' +
+        'Красная рыба, чёрная икра, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+        999,
         ".menu .container"
     ).render();
 
