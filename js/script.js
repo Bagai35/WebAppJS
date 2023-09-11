@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const deadline = '2021-12-11';
+    const deadline = '2023-12-11';
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -114,8 +114,8 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    modal.addEventListener('click', (e) => {
-        if (e.code === "Escape" || modal.classList.contains('show')) {
+    document.addEventListener('keydown', (e) => {
+        if (e.code === "Escape" && modal.classList.contains('show')) {
             closeModal();
         }
     });
@@ -127,37 +127,38 @@ window.addEventListener('DOMContentLoaded', function () {
             openModal();
             window.removeEventListener('scroll', showModalByScroll);
         }
+    }
 
-        window.addEventListener('scroll', showModalByScroll);
+    window.addEventListener('scroll', showModalByScroll);
 
-        class MenuCard {
-            constructor(src, alt, title, descr, price, parentSelector, ...classes) {
-                this.src = src;
-                this.alt = alt;
-                this.title = title;
-                this.descr = descr;
-                this.price = price;
-                this.classes = classes;
-                this.parent = document.querySelector(parentSelector);
-                this.transfer = 1;
-                this.changeToUSD();
+    class MenuCard {
+        constructor(src, alt, title, descr, price, parentSelector, ...classes) {
+            this.src = src;
+            this.alt = alt;
+            this.title = title;
+            this.descr = descr;
+            this.price = price;
+            this.classes = classes;
+            this.parent = document.querySelector(parentSelector);
+            this.transfer = 1;
+            this.changeToUSD();
+        }
+
+        changeToUSD() {
+            this.price = this.price * this.transfer;
+        }
+
+        render() {
+            const element = document.createElement('div');
+
+            if (this.classes.length === 0) {
+                this.classes = "menu__item";
+                element.classList.add(this.classes);
+            } else {
+                this.classes.forEach(className => element.classList.add(className));
             }
 
-            changeToUSD() {
-                this.price = this.price * this.transfer;
-            }
-
-            render() {
-                const element = document.createElement('div');
-
-                if (this.classes.length === 0) {
-                    this.classes = "menu__item";
-                    element.classList.add(this.classes);
-                } else {
-                    this.classes.forEach(className => element.classList.add(className));
-                }
-
-                element.innerHTML = `
+            element.innerHTML = `
                     <img src=${this.src} alt=${this.alt}>
                         <h3 class="menu＿item-subtitle">${this.title}</h3>
                         <div class="menu＿item-descr">${this.descr}</div>
@@ -167,10 +168,10 @@ window.addEventListener('DOMContentLoaded', function () {
                             <div class="menu＿item-total"><span>${this.price}</span> EUR/день</div>
                         </div>
                         `;
-                this.parent.append(element);
-            }
+            this.parent.append(element);
         }
     }
+
     new MenuCard(
         "img/tabs/vegy.jpg",
         "vegy",
@@ -200,6 +201,8 @@ window.addEventListener('DOMContentLoaded', function () {
         21,
         ".menu .container"
     ).render();
+
+
     const forms = document.querySelectorAll('form');
     const message = {
         loading: 'img/form/spinner.svg',
@@ -246,16 +249,16 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     function showThanksModal(message) {
         const prevModalDialog = document.querySelector('.modal__dialog');
-        prevModalDialog.classList.add("hide");
+        prevModalDialog.classList.add('hide');
         openModal();
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
-        thanksmodel.innerHTML = `
+        thanksModal.innerHTML = `
             <div class="modal__content">
                 <div class="modal__close" data-close>x</div>
                 <div class="modal__title">${message}</div>
             </div>
-            `;
+        `;
 
         document.querySelector('.modal').append(thanksModal);
         setTimeout(() => {
